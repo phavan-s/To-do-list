@@ -18,6 +18,8 @@
 
   let password = "";
 
+  let showPassword = false;
+
   let errorMessage = "";
 
   async function loginUser() {
@@ -93,12 +95,22 @@
 
     <div class="form-group">
       <label for="password">Password</label>
-      <input
-        id="password"
-        bind:value={password}
-        type="password"
-        placeholder="••••••••"
-      />
+      <div class="password-input-wrapper">
+        <input
+          id="password"
+          bind:value={password}
+          type={showPassword ? "text" : "password"}
+          placeholder="••••••••"
+        />
+        <button
+          type="button"
+          class="password-toggle"
+          on:click={() => (showPassword = !showPassword)}
+          title={showPassword ? "Hide password" : "Show password"}
+        >
+          {showPassword ? "👁️" : "👁️‍🗨️"}
+        </button>
+      </div>
     </div>
 
     <button class="btn-primary w-full" on:click={loginUser}>
@@ -113,3 +125,37 @@
     </p>
   </div>
 </div>
+
+<style>
+  .password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .password-input-wrapper input {
+    padding-right: 2.75rem;
+    margin-bottom: 0;
+  }
+
+  .password-toggle {
+    position: absolute;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    transition: var(--transition);
+    margin-bottom: 0;
+  }
+
+  .password-toggle:hover {
+    color: var(--text-primary);
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+</style>
