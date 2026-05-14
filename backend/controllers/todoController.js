@@ -42,6 +42,32 @@ const updateTodo = async (req, res) => {
     }
 };
 
+const getUserTodos = async (req, res) => {
+
+  try {
+
+    const userId = req.params.id;
+
+    const todos = await Todo.findAll({
+      where: {
+        userId
+      }
+    });
+
+    res.json(todos);
+
+  }
+
+  catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+
+};
+
 const deleteTodo = async (req, res) => {
     try {
         const { id } = req.params;
@@ -63,7 +89,7 @@ const deleteTodo = async (req, res) => {
     }
 };
 
-module.exports = { createTodo, getTodos, updateTodo, deleteTodo };
+module.exports = { createTodo, getTodos, updateTodo, deleteTodo, getUserTodos };
 
 
 

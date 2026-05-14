@@ -1,4 +1,18 @@
 <script>
+  import { onMount } from "svelte";
+
+  onMount(() => {
+
+  const token =
+    localStorage.getItem("accessToken");
+
+  if (token) {
+
+    window.location.href = "/dashboard";
+
+  }
+
+});
 
   let email = "";
 

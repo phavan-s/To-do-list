@@ -1,6 +1,22 @@
 <script>
 
   import { onMount } from "svelte";
+  onMount(() => {
+
+  const token =
+    localStorage.getItem("accessToken");
+
+  if (!token) {
+
+    window.location.href = "/login";
+
+    return;
+
+  }
+
+  getTodos();
+
+});
 
   let todos = [];
 
@@ -185,11 +201,24 @@ $: completedTodos =
     }
   }
 
+  function logout() {
+
+  localStorage.removeItem("accessToken");
+
+  localStorage.removeItem("role");
+
+  window.location.href = "/login";
+
+}
+
 
 </script>
 
 <h1>Dashboard</h1>
 
+<button onclick={logout}>
+  Logout
+</button>
 {#if role === "admin"}
 
   <a href="/admin">
