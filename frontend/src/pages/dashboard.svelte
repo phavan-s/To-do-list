@@ -202,117 +202,153 @@ $: completedTodos =
   }
 
   function logout() {
-
-  localStorage.removeItem("accessToken");
-
-  localStorage.removeItem("role");
-
-  window.location.href = "/login";
-
-}
-
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("role");
+    window.location.href = "/login";
+  }
 
 </script>
 
-<h1>Dashboard</h1>
-
-<button onclick={logout}>
-  Logout
-</button>
-{#if role === "admin"}
-
-  <a href="/admin">
-
-    <button>
-      Admin Panel
-    </button>
-
-  </a>
-
-{/if}
-
-
-{#if role !== "admin"}
-  <h2>Add New Task</h2>
-  {#if error}
-    <div>
-      {error}
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <div class="dashboard-actions">
+      {#if role === "admin"}
+        <a href="/admin" style="text-decoration: none;">
+          <button class="btn-secondary">
+            👨‍💼 Admin Panel
+          </button>
+        </a>
+      {/if}
+      <button class="btn-secondary" on:click={logout}>
+        🚪 Logout
+      </button>
     </div>
-  {/if}
-  <div>
-    <div>
-      <input
-        bind:value={todoTitle}
-        placeholder="Task title"
-      />
-    </div>
-    <div>
-      <textarea
-        bind:value={todoDescription}
-        placeholder="Task description (optional)"
-      ></textarea>
-    </div>
-    <button onclick={createTodo}>
-      Add Task
-    </button>
   </div>
-{/if}
 
-<h2>Your Tasks</h2>
+  <div class="dashboard-content">
+    {#if role !== "admin"}
+      <div class="dashboard-section">
+        <h2>➕ Create Task</h2>
+        
+        {#if error}
+          <div class="error-message">
+            {error}
+          </div>
+        {/if}
 
-{#if loading}
+        <div class="form-group">
+          <label for="title">Task Title</label>
+          <input
+            id="title"
+            bind:value={todoTitle}
+            type="text"
+            placeholder="What do you need to do?"
+          />
+        </div>
 
-  <p>Loading tasks...</p>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            bind:value={todoDescription}
+            placeholder="Add details about your task..."
+          ></textarea>
+        </div>
 
-{:else if todos.length === 0}
-
-  <p>No tasks yet. Create one above!</p>
-
-{:else}
-
-  <h2>Pending Tasks</h2>
-
-  <ul>
-
-    {#each pendingTodos as todo}
-
-      <li>
-
-        <input
-          type="checkbox"
-          onclick={() => completeTodo(todo)}
-        />
-
-        {todo.title}
-
-        <button onclick={() => updateTodo(todo.id)}>
-          Edit
+        <button class="btn-primary w-full" on:click={createTodo}>
+          Create Task
         </button>
+      </div>
+    {/if}
 
-        <button onclick={() => deleteTodo(todo.id)}>
-          Delete
-        </button>
+    <div class="dashboard-section">
+      <h2>📋 Your Tasks</h2>
 
-      </li>
+      {#if loading}
+        <div class="text-center">
+          <div class="loading mt-2 mb-2" style="margin-left: auto; margin-right: auto;"></div>
+          <p class="text-muted">Loading tasks...</p>
+        </div>
+      {:else if todos.length === 0}
+        <div class="empty-state">
+          <h3>No tasks yet</h3>
+          <p>Create your first task to get started</p>
+        </div>
+      {:else}
+        <div>
+          <h3 style="color: var(--success-color); margin-top: 0; margin-bottom: 1rem;">
+            🎯 Active Tasks ({pendingTodos.length})
+          </h3>
 
-    {/each}
+          {#if pendingTodos.length === 0}
+            <p class="text-muted text-center" style="padding: 2rem;">All caught up! 🎉</p>
+          {:else}
+            {#each pendingTodos as todo}
+              <div class="todo-item">
+                <div class="todo-content">
+                  <div class="todo-title">{todo.title}</div>
+                  {#if todo.description}
+                    <div class="todo-description">{todo.description}</div>
+                  {/if}
+                </div>
+                <div class="todo-actions">
+                  <button 
+                    class="btn-success btn-small" 
+                    on:click={() => completeTodo(todo)}
+                    title="Mark as complete"
+                  >
+                    ✓
+                  </button>
+                  <button 
+                    class="btn-secondary btn-small" 
+                    on:click={() => updateTodo(todo.id)}
+                    title="Edit task"
+                  >
+                    ✎
+                  </button>
+                  <button 
+                    class="btn-danger btn-small" 
+                    on:click={() => deleteTodo(todo.id)}
+                    title="Delete task"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            {/each}
+          {/if}
 
-  </ul>
+          {#if completedTodos.length > 0}
+            <div class="section-divider"></div>
+            <h3 style="color: var(--text-secondary); margin-bottom: 1rem;">
+              ✅ Completed ({completedTodos.length})
+            </h3>
 
-  <h2>Completed Tasks</h2>
+            {#each completedTodos as todo}
+              <div class="todo-item completed">
+                <div class="todo-content">
+                  <div class="todo-title completed">{todo.title}</div>
+                </div>
+                <button 
+                  class="btn-danger btn-small" 
+                  on:click={() => deleteTodo(todo.id)}
+                  title="Delete task"
+                >
+                  ✕
+                </button>
+              </div>
+            {/each}
+          {/if}
+        </div>
+      {/if}
+    </div>
+  </div>
+</div>
 
-  <ul>
-
-    {#each completedTodos as todo}
-
-      <li>
-
-        ✅ {todo.title}
-
-      </li>
-
-    {/each}
-
-  </ul>
-
-{/if}
+<style>
+  :global(#app) {
+    background: var(--dark-bg);
+    min-height: 100vh;
+  }
+</style>

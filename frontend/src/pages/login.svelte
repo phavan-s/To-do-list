@@ -71,34 +71,45 @@
 
 </script>
 
-<h1>Login</h1>
+<div class="auth-container">
+  <div class="auth-card">
+    <h1>Welcome Back</h1>
 
-{#if errorMessage}
-  <div style="color: red; margin-bottom: 10px;">
-    {errorMessage}
+    {#if errorMessage}
+      <div class="error-message">
+        {errorMessage}
+      </div>
+    {/if}
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input
+        id="email"
+        bind:value={email}
+        type="email"
+        placeholder="name@example.com"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        bind:value={password}
+        type="password"
+        placeholder="••••••••"
+      />
+    </div>
+
+    <button class="btn-primary w-full" on:click={loginUser}>
+      Sign In
+    </button>
+
+    <p class="text-center">
+      Don't have an account?<br />
+      <a href="/register">
+        Create Account
+      </a>
+    </p>
   </div>
-{/if}
-
-<input
-  bind:value={email}
-  type="email"
-  placeholder="Enter email"
-/>
-
-<input
-  bind:value={password}
-  type="password"
-  placeholder="Enter password"
-/>
-
-<button on:click={loginUser}>
-  Login
-</button>
-
-<p>
-  New user?
-
-  <a href="/register">
-    Create Account
-  </a>
-</p>
+</div>

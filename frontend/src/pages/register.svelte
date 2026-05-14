@@ -6,66 +6,112 @@
 
   let password = "";
 
+  let successMessage = "";
+
+  let errorMessage = "";
+
   async function registerUser() {
 
-    const response = await fetch(
-      "http://localhost:3000/api/register",
-      {
-        method: "POST",
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      errorMessage = "Please fill in all fields";
+      return;
+    }
 
-        headers: {
-          "Content-Type": "application/json"
-        },
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/register",
+        {
+          method: "POST",
 
-        body: JSON.stringify({
-          name,
-          email,
-          password
-        })
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            name,
+            email,
+            password
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        errorMessage = data.message || "Registration failed";
+        return;
       }
-    );
 
-    const data = await response.json();
+      successMessage = "Registration successful! Redirecting to login...";
+      errorMessage = "";
 
-    console.log(data);
-
-    alert("Registration successful");
-
-    window.location.href = "/login";
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1500);
+    } catch (err) {
+      errorMessage = "An error occurred. Please try again.";
+      console.error(err);
+    }
 
   }
 
 </script>
 
-<h1>Create Account</h1>
+<div class="auth-container">
+  <div class="auth-card">
+    <h1>Create Account</h1>
 
-<input
-  bind:value={name}
-  placeholder="Enter name"
-/>
+    {#if errorMessage}
+      <div class="error-message">
+        {errorMessage}
+      </div>
+    {/if}
 
-<input
-  bind:value={email}
-  type="email"
-  placeholder="Enter email"
-/>
+    {#if successMessage}
+      <div class="success-message">
+        {successMessage}
+      </div>
+    {/if}
 
-<input
-  bind:value={password}
-  type="password"
-  placeholder="Enter password"
-/>
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input
+        id="name"
+        bind:value={name}
+        type="text"
+        placeholder="John Doe"
+      />
+    </div>
 
-<button onclick={registerUser}>
-  Register
-</button>
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input
+        id="email"
+        bind:value={email}
+        type="email"
+        placeholder="name@example.com"
+      />
+    </div>
 
-<p>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        bind:value={password}
+        type="password"
+        placeholder="••••••••"
+      />
+    </div>
 
-  Already have an account?
+    <button class="btn-primary w-full" on:click={registerUser}>
+      Create Account
+    </button>
 
-  <a href="/login">
-    Login
-  </a>
-
-</p>
+    <p class="text-center">
+      Already have an account?<br />
+      <a href="/login">
+        Sign In
+      </a>
+    </p>
+  </div>
+</div>
