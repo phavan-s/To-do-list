@@ -4,6 +4,8 @@
 
   let password = "";
 
+  let errorMessage = "";
+
   async function loginUser() {
 
     const response = await fetch(
@@ -26,17 +28,42 @@
 
     console.log(data);
 
+    if (!response.ok) {
+      errorMessage = data.message || "Login failed";
+      return;
+    }
+
     localStorage.setItem(
       "accessToken",
       data.accessToken
     );
 
-    window.location.href = "/dashboard";
+    localStorage.setItem(
+      "refreshToken",
+      data.refreshToken
+    );
+
+    localStorage.setItem(
+      "role",
+      data.role
+    );
+
+    if (data.role === "admin") {
+      window.location.href = "/admin";
+    } else {
+      window.location.href = "/dashboard";
+    }
   }
 
 </script>
 
 <h1>Login</h1>
+
+{#if errorMessage}
+  <div style="color: red; margin-bottom: 10px;">
+    {errorMessage}
+  </div>
+{/if}
 
 <input
   bind:value={email}
@@ -53,3 +80,11 @@
 <button on:click={loginUser}>
   Login
 </button>
+
+<p>
+  New user?
+
+  <a href="/register">
+    Create Account
+  </a>
+</p>

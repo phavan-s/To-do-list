@@ -62,7 +62,8 @@ const loginUser = async (req, res) => {
     res.json({
         message: "Login successful",    
         accessToken,
-        refreshToken
+        refreshToken,
+        role: user.role
     });
 };
 
