@@ -189,7 +189,7 @@ $: completedTodos =
 </script>
 
 <h1>Dashboard</h1>
-<div>
+
 {#if role === "admin"}
 
   <a href="/admin">
@@ -211,21 +211,22 @@ $: completedTodos =
     </div>
   {/if}
   <div>
-    <input
-      bind:value={todoTitle}
-      placeholder="Task title"
-    />
+    <div>
+      <input
+        bind:value={todoTitle}
+        placeholder="Task title"
+      />
+    </div>
+    <div>
+      <textarea
+        bind:value={todoDescription}
+        placeholder="Task description (optional)"
+      ></textarea>
+    </div>
+    <button onclick={createTodo}>
+      Add Task
+    </button>
   </div>
-  <div>
-    <textarea
-      bind:value={todoDescription}
-      placeholder="Task description (optional)"
-    ></textarea>
-  </div>
-  <button onclick={createTodo}>
-    Add Task
-  </button>
-</div>
 {/if}
 
 <h2>Your Tasks</h2>
