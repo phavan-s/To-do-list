@@ -1,0 +1,15 @@
+◇ injected env (2) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+UserRoutes file loaded
+Server is running on port 3000
+Executing (default): SELECT 1+1 AS result
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'Users' AND TABLE_SCHEMA = 'login_app'
+Connection has been established successfully.
+Executing (default): SHOW FULL COLUMNS FROM `Users`;
+Executing (default): SELECT CONSTRAINT_NAME as constraint_name,CONSTRAINT_NAME as constraintName,CONSTRAINT_SCHEMA as constraintSchema,CONSTRAINT_SCHEMA as constraintCatalog,TABLE_NAME as tableName,TABLE_SCHEMA as tableSchema,TABLE_SCHEMA as tableCatalog,COLUMN_NAME as columnName,REFERENCED_TABLE_SCHEMA as referencedTableSchema,REFERENCED_TABLE_SCHEMA as referencedTableCatalog,REFERENCED_TABLE_NAME as referencedTableName,REFERENCED_COLUMN_NAME as referencedColumnName FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE where TABLE_NAME = 'Users' AND CONSTRAINT_NAME!='PRIMARY' AND CONSTRAINT_SCHEMA='login_app' AND REFERENCED_TABLE_NAME IS NOT NULL;
+Executing (default): ALTER TABLE `Users` CHANGE `name` `name` VARCHAR(255);
+Executing (default): ALTER TABLE `Users` CHANGE `email` `email` VARCHAR(255);
+Executing (default): ALTER TABLE `Users` CHANGE `password` `password` VARCHAR(255);
+Executing (default): ALTER TABLE `Users` CHANGE `createdAt` `createdAt` DATETIME NOT NULL;
+Executing (default): ALTER TABLE `Users` CHANGE `updatedAt` `updatedAt` DATETIME NOT NULL;
+Executing (default): ALTER TABLE `Users` CHANGE `role` `role` VARCHAR(255) DEFAULT 'user';
+Executing (default): SHOW INDEX FROM `Users`
