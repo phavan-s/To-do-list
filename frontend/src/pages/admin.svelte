@@ -32,7 +32,7 @@
   async function getUsers() {
 
     const response = await fetch(
-      "http://localhost:3000/api/users",
+      "/api/users",
       {
         headers: {
 
@@ -54,7 +54,7 @@
     selectedUser = user;
 
     const response = await fetch(
-      `http://localhost:3000/api/users/${user.id}/todos`,
+      `/api/users/${user.id}/todos`,
       {
         headers: {
 
@@ -81,7 +81,7 @@
     if (!confirmDelete) return;
 
     await fetch(
-      `http://localhost:3000/api/users/${id}`,
+      `/api/users/${id}`,
       {
         method: "DELETE",
 

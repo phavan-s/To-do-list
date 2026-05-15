@@ -49,7 +49,7 @@ $: completedTodos =
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/todos",
+        "/api/todos",
         {
           headers: {
 
@@ -83,7 +83,7 @@ $: completedTodos =
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/todos",
+        "/api/todos",
         {
           method: "POST",
 
@@ -126,7 +126,7 @@ $: completedTodos =
   async function deleteTodo(id) {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/todos/${id}`,
+        `/api/todos/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -148,7 +148,7 @@ $: completedTodos =
   async function completeTodo(todo) {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/todos/${todo.id}`,
+        `/api/todos/${todo.id}`,
         {
           method: "PUT",
           headers: {
@@ -178,7 +178,7 @@ $: completedTodos =
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/todos/${id}`,
+        `/api/todos/${id}`,
         {
           method: "PUT",
           headers: {
