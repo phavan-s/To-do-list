@@ -1,5 +1,7 @@
 {
 	"dependencies": {
-		"@mateothegreat/svelte5-router": "^2.16.19"
+		"@ai-sdk/xai": "^3.0.92",
+		"@mateothegreat/svelte5-router": "^2.16.19",
+		"ai": "^6.0.191"
 	}
 }
